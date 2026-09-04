@@ -4,8 +4,8 @@ const port = 3000;
 
 app.set("view engine", "ejs");
 app.set("views", "./views");
+app.use(express.urlencoded({ extended: true })); // Formulardaten parsen
 
-// Transiente Aufgabenliste (im Arbeitsspeicher)
 let tasks = [
   {
     id: 1,
@@ -23,8 +23,28 @@ let tasks = [
   },
 ];
 
+let nextId = 3; // für die Vergabe neuer IDs
+
 app.get("/", (req, res) => {
   res.render("index", { tasks });
+});
+
+app.get("/aufgaben/neu", (req, res) => {
+  res.render("neu");
+});
+
+app.post("/aufgaben/neu", (req, res) => {
+  const { title, description, dueDate } = req.body;
+
+  tasks.push({
+    id: nextId++,
+    title,
+    description,
+    dueDate,
+    done: false,
+  });
+
+  res.redirect("/");
 });
 
 app.listen(port, () => {

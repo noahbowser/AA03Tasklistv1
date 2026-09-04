@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Neue Aufgabe</title>
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <h1>Neue Aufgabe erfassen</h1>
+
+      <form action="/aufgaben/neu" method="POST">
+        <label for="title">Titel</label>
+        <input type="text" id="title" name="title" required />
+
+        <label for="description">Beschreibung</label>
+        <input type="text" id="description" name="description" />
+
+        <label for="dueDate">Fälligkeitsdatum</label>
+        <input type="date" id="dueDate" name="dueDate" />
+
+        <input type="submit" value="Speichern" class="button-primary" />
+      </form>
+
+      <p><a href="/">Zurück zur Übersicht</a></p>
+    </div>
+  </body>
+</html>
