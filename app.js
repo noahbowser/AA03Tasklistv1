@@ -47,6 +47,24 @@ app.post("/aufgaben/neu", (req, res) => {
   res.redirect("/");
 });
 
+app.post("/aufgaben/:id/erledigt", (req, res) => {
+  const id = parseInt(req.params.id);
+  const task = tasks.find((t) => t.id === id);
+
+  if (task) {
+    task.done = true;
+  }
+
+  res.redirect("/");
+});
+
+app.post("/aufgaben/:id/loeschen", (req, res) => {
+  const id = parseInt(req.params.id);
+  tasks = tasks.filter((t) => t.id !== id);
+
+  res.redirect("/");
+});
+
 app.listen(port, () => {
   console.log(`App läuft auf http://localhost:${port}`);
 });

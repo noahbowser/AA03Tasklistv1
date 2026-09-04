@@ -7,6 +7,9 @@
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css">
+  <style>
+    .done-task { text-decoration: line-through; color: #999; }
+  </style>
 </head>
 <body>
   <div class="container">
@@ -22,15 +25,26 @@
             <th>Beschreibung</th>
             <th>Fälligkeitsdatum</th>
             <th>Status</th>
+            <th>Aktionen</th>
           </tr>
         </thead>
         <tbody>
           <% tasks.forEach(task => { %>
-            <tr>
+            <tr class="<%= task.done ? 'done-task' : '' %>">
               <td><%= task.title %></td>
               <td><%= task.description %></td>
               <td><%= task.dueDate %></td>
               <td><%= task.done ? 'Erledigt' : 'Offen' %></td>
+              <td>
+                <% if (!task.done) { %>
+                  <form action="/aufgaben/<%= task.id %>/erledigt" method="POST" style="display:inline">
+                    <input type="submit" value="Erledigt">
+                  </form>
+                <% } %>
+                <form action="/aufgaben/<%= task.id %>/loeschen" method="POST" style="display:inline">
+                  <input type="submit" value="Löschen">
+                </form>
+              </td>
             </tr>
           <% }) %>
         </tbody>
