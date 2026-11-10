@@ -5,7 +5,8 @@
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
-    "dev": "nodemon app.js"
+    "dev": "nodemon app.js",
+    "postinstall": "prisma skills sync || exit 0"
   },
   "repository": {
     "type": "git",
@@ -20,10 +21,13 @@
   },
   "homepage": "https://github.com/noahbowser/AA03Tasklistv1#readme",
   "dependencies": {
+    "@prisma/client": "^6.19.3",
     "ejs": "^6.0.1",
     "express": "^5.2.1"
   },
   "devDependencies": {
-    "nodemon": "^3.1.14"
+    "dotenv": "^18.0.10",
+    "nodemon": "^3.1.14",
+    "prisma": "^6.19.3"
   }
 }
