@@ -55,18 +55,23 @@ exports.zeigeNeuFormular = (req, res) => {
   res.render("neu");
 };
 
-exports.erstelleAufgabe = (req, res) => {
+exports.erstelleAufgabe = async (req, res) => {
   const { title, description, dueDate } = req.body;
 
-  tasks.push({
-    id: nextId++,
-    title,
-    description,
-    dueDate,
-    done: false,
-  });
+  try {
+    await prisma.task.create({
+      data: {
+        title,
+        description: description || null,
+        dueDate: dueDate ? new Date(dueDate) : null,
+        done: false,
+      },
+    });
 
-  res.redirect("/");
+    res.redirect("/");
+  } catch (err) {
+    sendeDatenbankFehler(res, err);
+  }
 };
 
 exports.markiereErledigt = (req, res) => {
