@@ -1,22 +1,3 @@
-let tasks = [
-  {
-    id: 1,
-    title: "Einkaufen gehen",
-    description: "Milch, Brot und Eier kaufen",
-    dueDate: "2026-09-05",
-    done: false,
-  },
-  {
-    id: 2,
-    title: "Hausaufgaben erledigen",
-    description: "Tasklist-Projekt fertigstellen",
-    dueDate: "2026-09-10",
-    done: false,
-  },
-];
-
-let nextId = 3;
-
 const prisma = require("../lib/prisma");
 
 // Gibt eine einheitliche HTML-Fehlermeldung zurück (ejs-Seiten bleiben unverändert)
@@ -74,20 +55,31 @@ exports.erstelleAufgabe = async (req, res) => {
   }
 };
 
-exports.markiereErledigt = (req, res) => {
+exports.markiereErledigt = async (req, res) => {
   const id = parseInt(req.params.id);
-  const task = tasks.find((t) => t.id === id);
 
-  if (task) {
-    task.done = true;
+  try {
+    await prisma.task.updateMany({
+      where: { id },
+      data: { done: true },
+    });
+
+    res.redirect("/");
+  } catch (err) {
+    sendeDatenbankFehler(res, err);
   }
-
-  res.redirect("/");
 };
 
-exports.loescheAufgabe = (req, res) => {
+exports.loescheAufgabe = async (req, res) => {
   const id = parseInt(req.params.id);
-  tasks = tasks.filter((t) => t.id !== id);
 
-  res.redirect("/");
+  try {
+    await prisma.task.deleteMany({
+      where: { id },
+    });
+
+    res.redirect("/");
+  } catch (err) {
+    sendeDatenbankFehler(res, err);
+  }
 };
